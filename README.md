@@ -25,7 +25,7 @@ seemed like a better way to learn them than just reading the docs.
 | Repo | Issue / PR | What | Status |
 |------|------------|------|--------|
 | pyadi-iio | [#808](https://github.com/analogdevicesinc/pyadi-iio/pull/808) | `ada4961` and `adf4382` raised errors naming the wrong part (ADF4159 / ADF4355) | Open, waiting for review |
-| pyadi-iio | [#96](https://github.com/analogdevicesinc/pyadi-iio/issues/96) | Older classes accept a `None` device from `find_device()` and fail later with confusing errors | Asking maintainers about approach |
+| pyadi-iio | [#96](https://github.com/analogdevicesinc/pyadi-iio/issues/96) | Older classes accept a `None` device from `find_device()` and fail later with confusing errors | [Asked](https://github.com/analogdevicesinc/pyadi-iio/issues/96#issuecomment-6544582633) which approach they want, waiting for a reply |
 | pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638) | Stray `print` in the AD7746 class, already fixed on `main` by `b5ec490` | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/638#issuecomment-6544463989), waiting for close |
 | pyadi-iio | [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | AD5686 read back mV but took V, already fixed on `main` by `7d9be84` (and `volts` became `voltage`) | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/585#issuecomment-6544480249), waiting for close |
 | libiio | (not filed yet) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Issue drafted |
@@ -93,3 +93,10 @@ through WSL.
 - Opened my first PR, #808, for the wrong part names. I kept the description
   short, filled in the repo's template, and said clearly that it was tested
   with a mocked context, not hardware.
+- Commented on #96 before writing any code. I re-ran my reproduction on the
+  latest `main` first, and it still holds: `ad9094` and `ad9136` construct
+  with no device at all, and `ad9625` and `ad9250` fail with an unrelated
+  `TypeError`. I offered two options: a small shared helper rolled out a few
+  classes at a time, or leaving it to the `device_base` migration. Since the
+  issue has been assigned to someone else since 2020, I also checked that
+  nobody is working on it.
