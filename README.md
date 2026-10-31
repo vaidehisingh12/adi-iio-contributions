@@ -28,7 +28,7 @@ seemed like a better way to learn them than just reading the docs.
 | pyadi-iio | [#96](https://github.com/analogdevicesinc/pyadi-iio/issues/96) | Older classes accept a `None` device from `find_device()` and fail later with confusing errors | [Asked](https://github.com/analogdevicesinc/pyadi-iio/issues/96#issuecomment-6544582633) which approach they want, waiting for a reply |
 | pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638) | Stray `print` in the AD7746 class, already fixed on `main` by `b5ec490` | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/638#issuecomment-6544463989), waiting for close |
 | pyadi-iio | [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | AD5686 read back mV but took V, already fixed on `main` by `7d9be84` (and `volts` became `voltage`) | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/585#issuecomment-6544480249), waiting for close |
-| libiio | (not filed yet) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Issue drafted |
+| libiio | [#1613](https://github.com/analogdevicesinc/libiio/issues/1613) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Filed, offered three fix options, waiting for a reply |
 
 ## Setup
 
@@ -100,3 +100,11 @@ through WSL.
   classes at a time, or leaving it to the `device_base` migration. Since the
   issue has been assigned to someone else since 2020, I also asked whether
   anyone is still working on it.
+- Filed libiio #1613 for the Windows import crash. Before posting I checked
+  it on Python 3.10 as well as 3.13 (same `TypeError` on both), confirmed the
+  line is still on libiio `main`, and searched for duplicates. The closest
+  ones were the same lookup problem on embedded Linux and macOS, both fixed
+  separately. The issue lays out three fixes: export a free function from
+  libiio, hardcode `ucrtbase` for the official MSVC builds, or skip the free
+  on Windows as a stopgap. I left the choice to the maintainers, since
+  exporting a free function would mean adding to the C API.
