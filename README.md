@@ -26,7 +26,8 @@ seemed like a better way to learn them than just reading the docs.
 |------|------------|------|--------|
 | pyadi-iio | branch [`fix/device-not-found-names`](https://github.com/vaidehisingh12/pyadi-iio/tree/fix/device-not-found-names) | `ada4961` and `adf4382` raised errors naming the wrong part (ADF4159 / ADF4355) | Ready, PR not opened yet |
 | pyadi-iio | [#96](https://github.com/analogdevicesinc/pyadi-iio/issues/96) | Older classes accept a `None` device from `find_device()` and fail later with confusing errors | Asking maintainers about approach |
-| pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638), [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | Both look fixed on `main` already, can probably be closed | Comment drafted |
+| pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638) | Stray `print` in the AD7746 class, already fixed on `main` by `b5ec490` | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/638#issuecomment-6544463989), waiting for close |
+| pyadi-iio | [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | AD5686 read back mV but took V, already fixed on `main` by `7d9be84` (and `volts` became `voltage`) | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/585#issuecomment-6544480249), waiting for close |
 | libiio | (not filed yet) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Issue drafted |
 
 ## Setup
@@ -80,3 +81,12 @@ through WSL.
   first PR instead.
 - Fix branch pushed to my fork with a mocked test. The test fails before the
   fix and passes after it.
+
+### 2026-10-31
+
+- Rechecked everything against upstream before posting. Nothing had moved,
+  and the fix branch still merges cleanly.
+- Posted my first comments upstream, on #638 and #585, pointing at the
+  commits that already fixed them so they can be closed. I kept the #585 one
+  short but still mentioned the `volts` to `voltage` rename, since that will
+  break old scripts.
