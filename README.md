@@ -98,5 +98,5 @@ through WSL.
   with no device at all, and `ad9625` and `ad9250` fail with an unrelated
   `TypeError`. I offered two options: a small shared helper rolled out a few
   classes at a time, or leaving it to the `device_base` migration. Since the
-  issue has been assigned to someone else since 2020, I also checked that
-  nobody is working on it.
+  issue has been assigned to someone else since 2020, I also asked whether
+  anyone is still working on it.
