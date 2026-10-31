@@ -26,6 +26,7 @@ seemed like a better way to learn them than just reading the docs.
 |------|------------|------|--------|
 | pyadi-iio | [#808](https://github.com/analogdevicesinc/pyadi-iio/pull/808) | `ada4961` and `adf4382` raised errors naming the wrong part (ADF4159 / ADF4355) | Open, waiting for review |
 | pyadi-iio | [#96](https://github.com/analogdevicesinc/pyadi-iio/issues/96) | Older classes accept a `None` device from `find_device()` and fail later with confusing errors | [Asked](https://github.com/analogdevicesinc/pyadi-iio/issues/96#issuecomment-6544582633) which approach they want, waiting for a reply |
+| pyadi-iio | [#809](https://github.com/analogdevicesinc/pyadi-iio/pull/809) (fixes [#489](https://github.com/analogdevicesinc/pyadi-iio/issues/489)) | Write only test helpers rejected write only properties, because `hasattr()` calls the getter | Open, waiting for review |
 | pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638) | Stray `print` in the AD7746 class, already fixed on `main` by `b5ec490` | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/638#issuecomment-6544463989), waiting for close |
 | pyadi-iio | [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | AD5686 read back mV but took V, already fixed on `main` by `7d9be84` (and `volts` became `voltage`) | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/585#issuecomment-6544480249), waiting for close |
 | libiio | [#1613](https://github.com/analogdevicesinc/libiio/issues/1613) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Filed, offered three fix options, waiting for a reply |
@@ -108,3 +109,16 @@ through WSL.
   libiio, hardcode `ucrtbase` for the official MSVC builds, or skip the free
   on Windows as a stopgap. I left the choice to the maintainers, since
   exporting a free function would mean adding to the C API.
+- Second PR, #809, for #489. The issue was only a link to a line, so I had
+  to work out the bug myself. The write only test helpers check
+  `hasattr(sdr, attr)` first, but `hasattr()` works by reading the
+  attribute, and a write only property can't be read. So the helpers
+  rejected exactly the properties they were written for. I scanned the
+  library and found 15 such properties (`ad9081.pfilt_config` and others)
+  that couldn't be tested this way. The fix checks the class instead. My
+  unit test with a fake write only device fails 3 of 4 cases before the fix
+  and passes all 4 after. I also checked that the two existing callers still
+  find their attributes.
+- Possible next item: ad7746's write only test seems to replace a method on
+  the channel object instead of calling it, so nothing gets written to the
+  device. Need to confirm before raising it.
