@@ -24,7 +24,7 @@ seemed like a better way to learn them than just reading the docs.
 
 | Repo | Issue / PR | What | Status |
 |------|------------|------|--------|
-| pyadi-iio | branch [`fix/device-not-found-names`](https://github.com/vaidehisingh12/pyadi-iio/tree/fix/device-not-found-names) | `ada4961` and `adf4382` raised errors naming the wrong part (ADF4159 / ADF4355) | Ready, PR not opened yet |
+| pyadi-iio | [#808](https://github.com/analogdevicesinc/pyadi-iio/pull/808) | `ada4961` and `adf4382` raised errors naming the wrong part (ADF4159 / ADF4355) | Open, waiting for review |
 | pyadi-iio | [#96](https://github.com/analogdevicesinc/pyadi-iio/issues/96) | Older classes accept a `None` device from `find_device()` and fail later with confusing errors | Asking maintainers about approach |
 | pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638) | Stray `print` in the AD7746 class, already fixed on `main` by `b5ec490` | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/638#issuecomment-6544463989), waiting for close |
 | pyadi-iio | [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | AD5686 read back mV but took V, already fixed on `main` by `7d9be84` (and `volts` became `voltage`) | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/585#issuecomment-6544480249), waiting for close |
@@ -90,3 +90,6 @@ through WSL.
   commits that already fixed them so they can be closed. I kept the #585 one
   short but still mentioned the `volts` to `voltage` rename, since that will
   break old scripts.
+- Opened my first PR, #808, for the wrong part names. I kept the description
+  short, filled in the repo's template, and said clearly that it was tested
+  with a mocked context, not hardware.
