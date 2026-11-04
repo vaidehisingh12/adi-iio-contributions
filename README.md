@@ -29,7 +29,7 @@ seemed like a better way to learn them than just reading the docs.
 | pyadi-iio | [#809](https://github.com/analogdevicesinc/pyadi-iio/pull/809) (fixes [#489](https://github.com/analogdevicesinc/pyadi-iio/issues/489)) | Write only test helpers rejected write only properties, because `hasattr()` calls the getter | Open, waiting for review |
 | pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638) | Stray `print` in the AD7746 class, already fixed on `main` by `b5ec490` | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/638#issuecomment-6544463989), waiting for close |
 | pyadi-iio | [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | AD5686 read back mV but took V, already fixed on `main` by `7d9be84` (and `volts` became `voltage`) | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/585#issuecomment-6544480249), waiting for close |
-| libiio | [#1613](https://github.com/analogdevicesinc/libiio/issues/1613) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Filed, offered three fix options, waiting for a reply |
+| libiio | [#1613](https://github.com/analogdevicesinc/libiio/issues/1613) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Confirmed by a maintainer, who's fixing it himself (option 1 with option 2 as fallback). I [offered to test](https://github.com/analogdevicesinc/libiio/issues/1613#issuecomment-6632560168) on Windows |
 
 ## Setup
 
@@ -122,3 +122,13 @@ through WSL.
 - Possible next item: ad7746's write only test seems to replace a method on
   the channel object instead of calling it, so nothing gets written to the
   device. Need to confirm before raising it.
+
+### 2026-11-04
+
+- Got a reply on libiio #1613 from one of the maintainers. He confirmed the
+  Windows crash is a real bug and is going to fix it himself. He went with
+  option 1 (a free function exported from libiio) and wants option 2
+  (`ucrtbase`) as the fallback. So no PR from me on this one, but the
+  diagnosis held up and the fix follows what I proposed.
+- Thanked him and offered to test his branch on Windows, since I already
+  have both the MSVC and MinGW builds set up from when I tracked this down.
