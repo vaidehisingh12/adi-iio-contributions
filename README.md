@@ -29,7 +29,7 @@ seemed like a better way to learn them than just reading the docs.
 | pyadi-iio | [#809](https://github.com/analogdevicesinc/pyadi-iio/pull/809) (fixes [#489](https://github.com/analogdevicesinc/pyadi-iio/issues/489)) | Write only test helpers rejected write only properties, because `hasattr()` calls the getter | Open, waiting for review |
 | pyadi-iio | [#638](https://github.com/analogdevicesinc/pyadi-iio/issues/638) | Stray `print` in the AD7746 class, already fixed on `main` by `b5ec490` | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/638#issuecomment-6544463989), waiting for close |
 | pyadi-iio | [#585](https://github.com/analogdevicesinc/pyadi-iio/issues/585) | AD5686 read back mV but took V, already fixed on `main` by `7d9be84` (and `volts` became `voltage`) | [Commented](https://github.com/analogdevicesinc/pyadi-iio/issues/585#issuecomment-6544480249), waiting for close |
-| libiio | [#1613](https://github.com/analogdevicesinc/libiio/issues/1613) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | Confirmed by a maintainer, who's fixing it himself (option 1 with option 2 as fallback). I [offered to test](https://github.com/analogdevicesinc/libiio/issues/1613#issuecomment-6632560168) on Windows |
+| libiio | [#1613](https://github.com/analogdevicesinc/libiio/issues/1613) | Python bindings crash on import on Windows, `find_library("c")` returns `None` | **Fixed** by the maintainer in [#1619](https://github.com/analogdevicesinc/libiio/pull/1619) (merged 2026-11-05), using my option 1 with option 2 as fallback. Not in a release yet |
 
 ## Setup
 
@@ -132,3 +132,15 @@ through WSL.
   diagnosis held up and the fix follows what I proposed.
 - Thanked him and offered to test his branch on Windows, since I already
   have both the MSVC and MinGW builds set up from when I tracked this down.
+
+### 2026-11-05
+
+- libiio #1613 is closed. The maintainer's fix (#1619) got merged this
+  morning. It adds `iio_free()` to libiio so the bindings free memory with
+  libiio's own C runtime, and falls back to `ucrtbase` on Windows for older
+  libiio builds, with `LIBIIO_PY_CRT=msvcrt` for MinGW users. That's the
+  option 1 plus option 2 combination from my issue. It also turned out an
+  earlier PR (#1615) had patched the import with `msvcrt.dll`, which suits
+  MinGW but not the official MSVC builds, so the issue caught that too.
+- It merged before I got to test it, so no test report from me. It'll ship
+  in the next libiio release after v1.0.0.
